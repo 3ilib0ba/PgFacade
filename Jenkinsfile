@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build application') {
             agent { docker {
-                    image 'maven:eclipse-temurin-21-alpine'
+                    image 'maven:3.8.8-eclipse-temurin-21-alpine'
                     // Run the container on the node specified at the
                     // top-level of the Pipeline, in the same workspace,
                     // rather than on a new node entirely:
