@@ -2,7 +2,7 @@
 
 # Deploying MinIO container
 PgFacadeMinioContainerId=$(docker run -p 9000:9000 -p 9001:9001 -e MINIO_ROOT_USER=s3user -e MINIO_ROOT_PASSWORD=s3password --name pgfacade-minio-test --net-alias minio -d minio/minio:latest server --console-address ":9001" /data)
-echo "MinIO container ID: ${PgFacadeMinioContainerId}"
+echo "MinIO container ID: $PgFacadeMinioContainerId"
 
 # Downloaded mc (minio client) for configuring minio
 curl -sSLo mc https://dl.min.io/client/mc/release/linux-amd64/mc
@@ -25,5 +25,5 @@ else
 fi
 
 # Connection minio to docker network
-docker network connect --alias minio pgfacade_minio-network ${PgFacadeMinioContainerId}
+docker network connect --alias minio pgfacade_minio-network $PgFacadeMinioContainerId
 echo "minio container connected to docker network pgfacade_minio-network. Alias of container -> minio."

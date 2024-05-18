@@ -79,7 +79,7 @@ pipeline {
                     cd ./.infrastructure
 
                     ./deploy_minio.sh
-                    ./deploy_components.sh
+                    ./deploy_components_lab.sh
 
                     cd ..
                     echo "---------------------- DEPLOY TO LAB FINISHED ----------------------"
