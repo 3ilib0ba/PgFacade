@@ -78,8 +78,8 @@ pipeline {
                     chmod -R +x ./.infrastructure
                     cd ./.infrastructure
 
-                    ./.infrastructure/deploy_minio.sh
-                    ./.infrastructure/deploy_components.sh
+                    ./deploy_minio.sh
+                    ./deploy_components.sh
 
                     cd ..
                     echo "---------------------- DEPLOY TO LAB FINISHED ----------------------"
