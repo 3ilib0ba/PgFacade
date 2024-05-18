@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Deploying MinIO container
-dockerOutput=$(docker run -p 9000:9000 -p 9001:9001 -e MINIO_ROOT_USER=s3user -e MINIO_ROOT_PASSWORD=s3password --name pgfacade-minio-test --net-alias minio -d minio/minio:latest server --console-address ":9001" /data)
-PgFacadeMinioContainerId=$(echo $dockerOutput | awk '{print $NF}')
+PgFacadeMinioContainerId=$(docker run -p 9000:9000 -p 9001:9001 -e MINIO_ROOT_USER=s3user -e MINIO_ROOT_PASSWORD=s3password --name pgfacade-minio-test --net-alias minio -d minio/minio:latest server --console-address ":9001" /data)
 echo "MinIO container ID: ${PgFacadeMinioContainerId}"
 
 # Downloaded mc (minio client) for configuring minio
