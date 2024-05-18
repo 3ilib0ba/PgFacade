@@ -75,10 +75,13 @@ pipeline {
                 sh '''#!/bin/bash
                     # 2. Deploying images to containers with MinIO:
                     echo "---------------------- DEPLOY TO LAB STARTED ----------------------"
+                    chmod -R +x ./.infrastructure
+                    cd ./.infrastructure
 
                     ./.infrastructure/deploy_minio.sh
                     ./.infrastructure/deploy_components.sh
 
+                    cd ..
                     echo "---------------------- DEPLOY TO LAB FINISHED ----------------------"
 
                     # 3. Call all tests
