@@ -44,6 +44,18 @@ pipeline {
                     ls -la
                     echo "----------------------"
                     mvn -B clean install
+
+                    echo "---------------------- BUILD STARTED ----------------------"
+                    # 1. Call steps of building artifacts:
+                    chmod -R +x ./.infrastructure
+                    cd ./.infrastructure
+
+                    ./build_updater.sh
+                    ./build_balancer.sh
+                    ./build_pgfacade.sh
+
+                    cd ..
+                    echo "--------------------- BUILD  FINISHED ---------------------"
                 '''
             }
         }
@@ -60,21 +72,19 @@ pipeline {
                 }
             }
             steps {
-                // 1. Call steps of building artifacts and deploying it for tests:
-                sh 'chmod -R +x ./.infrastructure'
-                sh 'cd ./.infrastructure'
+                sh '''#!/bin/bash
+                    # 2. Deploying images to containers with MinIO:
+                    echo "---------------------- DEPLOY TO LAB STARTED ----------------------"
 
-                sh './.infrastructure/build_updater.sh'
-                sh './.infrastructure/build_balancer.sh'
-                sh './.infrastructure/build_pgfacade.sh'
-                sh './.infrastructure/deploy_minio.sh'
-                sh './.infrastructure/deploy_components.sh'
+                    ./.infrastructure/deploy_minio.sh
+                    ./.infrastructure/deploy_components.sh
 
-                sh 'cd ..'
+                    echo "---------------------- DEPLOY TO LAB FINISHED ----------------------"
 
-                // 2. Call all tests
+                    # 3. Call all tests
 
-                // 3. Deploying new version of app
+                    # 4. Deploying new version of app
+                '''
             }
         }
     }
