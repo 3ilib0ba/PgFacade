@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 // 1. Call steps of building artifacts and deploying it for tests:
-                sh 'chmod -R +x ./infrastructure'
+                sh 'chmod -R +x ./.infrastructure'
                 sh './.infrastructure/build_updater.sh'
                 sh './.infrastructure/build_balancer.sh'
                 sh './.infrastructure/build_pgfacade.sh'
