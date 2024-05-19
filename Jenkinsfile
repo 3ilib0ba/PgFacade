@@ -47,6 +47,8 @@ pipeline {
 
                     echo "---------------------- BUILD STARTED ----------------------"
                     # 1. Call steps of building artifacts:
+                    apt-get update
+                    apt-get install -y docker-ce-cli
                     chmod -R +x ./.infrastructure
                     cd ./.infrastructure
 
