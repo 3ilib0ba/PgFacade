@@ -78,17 +78,35 @@ pipeline {
                     # 2. Deploying images to containers with MinIO:
                     echo "---------------------- DEPLOY TO LAB STARTED ----------------------"
                     chmod -R +x ./.infrastructure
-                    cd ./.infrastructure
+                    cd ./.infrastructure/lab
 
-                    ./deploy_minio.sh
+                    ./docker_networks_create.sh
+                    ./deploy_minio_lab.sh
                     ./deploy_components_lab.sh
 
-                    cd ..
                     echo "---------------------- DEPLOY TO LAB FINISHED ----------------------"
 
-                    # 3. Call all tests
+                    # 3. Call all tests (with report)
+                    echo "---------------------- TEST PGFACADE STARTED ----------------------"
+                    echo "Waiting for full application started in the Docker (sleep 1 minute)"
+                    sleep 60
 
-                    # 4. Deploying new version of app
+                    ./get_all_pg_facade_containers.sh
+
+                    echo "---------------------- TEST PGFACADE FINISHED ----------------------"
+
+                    # 4. Stopping and removing all PgFacade containers
+                    echo "---------------------- DELETING PGFACADE STARTED ----------------------"
+                    echo "Stopping and removing all containers. "
+
+                    ./delete_all_pg_containers.sh
+
+                    echo "PgFacade containers remained (should be empty): "
+                    ./get_all_pg_facade_containers.sh
+
+                    echo "---------------------- DELETING PGFACADE FINISHED ----------------------"
+
+                    # 5. Deploying new version of app if it's needed
                 '''
             }
         }

@@ -4,13 +4,17 @@
 needDeployUpdater=true
 postgreVersion="15.4-bookworm"
 
+sh ./docker_networks_create.sh
+
 # Deploying pgfacade-updater if it needed.
 if [ "$needDeployUpdater" = true ]; then
     echo "Starting container with pgfacade-updater..."
-    docker run --detach --name "pgfacade-updater" -v /var/run/docker.sock:/var/run/pgfacade/docker.sock -p 9090:8080 "pgfacade-updater"
+    docker run --detach --name "pgfacade-updater" \
+                -v /var/run/docker.sock:/var/run/pgfacade/docker.sock "pgfacade-updater"
     if [ $? -ne 0 ]; then
         echo "Error with starting pgfacade-updater, " \
-             "detected conflicts with docker, maybe pgfacade-updater is already running?"
+             "detected conflicts with docker, maybe pgfacade-updater is already running? " \
+             "Maybe it's errors about deploying in the LAB"
         exit 1
     fi
 fi
@@ -23,13 +27,13 @@ if [ $? -ne 0 ]; then
     "not found in the Docker Hub. Please check version."
     exit 1
 else
-    echo "Image PostgreSQL $postgreVersion downloaded successfully or was already at the machine."
+    echo "Image PostgreSQL $postgreVersion downloaded successfully or was already on machine."
 fi
 
 # Calling Updater for deploying app
 echo "Call Updater for deploying app..."
 
-curl -L 'http://localhost:9090/docker/install-new-postgres' \
+docker exec pgfacade-updater curl -L 'http://localhost:8080/docker/install-new-postgres' \
 -H 'Content-Type: application/json' \
 -d '{
     "awaitPgFacadeContainerMs": 15000,
