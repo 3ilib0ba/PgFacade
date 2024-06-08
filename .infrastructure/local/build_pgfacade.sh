@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "-------------------- PGFACADE --------------------"
+echo "-------------------- PGFACADE BUILD STARTED --------------------"
 
 mvn clean package -f "../pom.xml"
 
@@ -13,3 +13,8 @@ fi
 
 echo "Building new pgfacade image..."
 docker build --tag "pgfacade-pgfacade" -f "../.deployment/Dockerfile.jvm" "../app-pgfacade-root"
+
+echo "-------------------- PGFACADE BUILD FINISHED --------------------"
+
+
+

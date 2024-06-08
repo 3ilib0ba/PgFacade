@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "-------------------- UPDATER --------------------"
+echo "-------------------- UPDATER BUILD STARTED --------------------"
 
 mvn clean package -f "../.deployment/updater/pom.xml"
 
@@ -13,3 +13,8 @@ fi
 
 echo "Building new updater image..."
 docker build --tag "pgfacade-updater" "../.deployment/updater"
+
+echo "-------------------- UPDATER BUILD FINISHED -------------------"
+
+
+

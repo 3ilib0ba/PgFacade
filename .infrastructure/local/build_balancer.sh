@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "-------------------- BALANCER --------------------"
+echo "-------------------- BALANCER BUILD STARTED --------------------"
 
 mvn clean package -f "../.deployment/load-balancer/pom.xml"
 
@@ -13,3 +13,10 @@ fi
 
 echo "Building new balancer image..."
 docker build --tag "pgfacade-balancer" -f "../.deployment/load-balancer/docker/Dockerfile.jvm" "../.deployment/load-balancer"
+
+echo "-------------------- BALANCER BUILD FINISHED -------------------"
+
+
+
+
+

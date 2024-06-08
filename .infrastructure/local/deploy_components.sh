@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Variables for start_deploying. You can change it locally for change configuration.
-needDeployUpdater=true
+needDeployUpdater=false
 postgreVersion="15.4-bookworm"
+
+sh ./docker_networks_create.sh
 
 # Deploying pgfacade-updater if it needed.
 if [ "${needDeployUpdater}" = true ]; then
