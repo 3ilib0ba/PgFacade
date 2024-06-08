@@ -46,7 +46,7 @@ pipeline {
                     mvn -B clean install
 
                     echo "---------------------- BUILD STARTED ----------------------"
-                    # 1. Call steps of building artifacts:
+                    # 0. Call steps of building artifacts:
                     apt-get update
                     apt-get install -y docker-ce-cli
                     chmod -R +x ./.infrastructure
@@ -75,10 +75,17 @@ pipeline {
             }
             steps {
                 sh '''#!/bin/bash
-                    # 2. Deploying images to containers with MinIO:
-                    echo "---------------------- DEPLOY TO LAB STARTED ----------------------"
+                    # 1. Preparing (deleting old PgFacade containers)
+                    echo "---------------------- PREPARING LAB TO DEPLOY STARTED ----------------------"
+
                     chmod -R +x ./.infrastructure
                     cd ./.infrastructure/lab
+                    ./delete_all_pg_containers.sh
+
+                    echo "---------------------- PREPARING LAB TO DEPLOY FINISHED ----------------------"
+
+                    # 2. Deploying images to containers with MinIO:
+                    echo "---------------------- DEPLOY TO LAB STARTED ----------------------"
 
                     ./docker_networks_create.sh
                     ./deploy_minio_lab.sh
